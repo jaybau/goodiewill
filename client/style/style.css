@@ -1,20 +1,83 @@
+body {
+  background-color: #fff;
+}
+
 :global(#app) {
-  background: #fff;
   color: #000;
   font-family: 'Raleway', Verdana;
 }
 
+/* APP */
+
 h1 {
   text-align: center;
-  margin: 20px 0;
+  margin: 20px 0 10px 0;
+}
+
+h1:hover {
+  opacity: 0.5;
+}
+
+h4 {
+  text-align: center;
+  margin: auto auto 10px auto;
+  width: 380px;
+  padding: 10px;
+  border-bottom: 1px solid #000;
+}
+
+.navBar {
+  width: 645px;
+  height: 40px;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.searchBarContainer {
+  border: 1px solid #000;
+  width: 300px;
+  padding: 0 5px;
+  float: left;
+}
+
+.postBtnContainer {
+  width: 25px;
+  float: right;
+}
+
+.postBtn {
+  height: 20px;
+  width: auto;
+  opacity: 0.5;
+}
+
+.postBtn:hover {
+  opacity: 1;
 }
 
 /* FEED */
 
 .feed {
-  margin: 0px auto;
+  margin: 0 auto;
   width: 666px;
-  height: 1000px;
+  height: 600px;
+  padding: 75px 0 0 0;
+}
+
+.placeholderImg {
+  width: 300px;
+  height: 500px;
+  margin: 0 500px;
+}
+
+.carouselArrow {
+  height: 40px;
+  width: auto;
+  opacity: 0.5;
+}
+
+.carouselArrow:hover {
+  opacity: 1;
 }
 
 /* LISTING */
@@ -24,7 +87,7 @@ h1 {
   margin: 0;
   height: auto;
   width: auto;
-  float: right;
+  float: left;
 }
 
 .itemPic {
@@ -37,15 +100,80 @@ h1 {
 }
 
 .itemPic:hover {
-  opacity: 0.20;
+  opacity: 0.5;
 }
 
-.itemInfo {
-  clear: left;
+.imgOverlay {
   position: absolute;
   margin: 10px;
-  padding: 0 10px;
+  height: 200px;
+  width: 200px;
+  padding: 80px 60px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #fff;
+  opacity: 0.60;
+  border: 1px solid #fff;
+  border-radius: 5px;
+}
+
+/* MODAL */
+.claimed {
+  border: 1px solid #F1C40F;
+  border-radius: 5px;
+  background-color: #FCF3CF;
+  font-weight: 600;
+  margin: 0 10px;
+  padding: 0 5px;
+  color: #F1C40F;
+}
+
+.confirmed {
+  border: 1px solid #1ABC9C;
+  border-radius: 5px;
+  background-color: #D1F2EB;
+  font-weight: 600;
+  margin: 0 10px;
+  padding: 0 5px;
+  color: #1ABC9C;
+}
+
+.bodyContainer {
+  height: 375px;
+}
+
+.sideImgContainer {
+  height: 335px;
+  width: 102px;
+  float: left;
+}
+
+.sideImg {
+  border-radius: 5px;
+  height: 100px;
   width: auto;
+  margin: 0 0 15px 0;
+}
+
+.sideImg:hover {
+  opacity: 0.5;
+}
+
+.mainImgContainer {
+  float: left;
+  margin: 0 20px;
+}
+
+.mainImg {
+  border-radius: 5px;
+  height: 365px;
+  width: auto;
+  float: left;
+}
+
+.mainImg:hover {
+  opacity: 0.5;
 }
 
 .itemInfoText {
@@ -58,4 +186,60 @@ ul {
 
 li {
   list-style-type: none;
+}
+
+/* FORM */
+.form {
+  margin: 0 auto;
+  width: 380px;
+  height: auto;
+  padding: 5px;
+}
+
+label {
+  font-weight: 500;
+  margin: 0 0 10px 3px;
+}
+
+input {
+  margin: 0 5px;
+}
+
+select {
+  margin: 0 5px;
+  font-size: 13px;
+}
+
+.formInfo {
+  height: 125px;
+  width: 250px;
+  margin: 0;
+  border: 1px solid #D5DBDB;
+}
+
+.addPhotoBtn {
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px;
+  opacity: 0.5;
+}
+
+.addPhotoBtn:hover {
+  opacity: 1;
+}
+
+.postItemBtn {
+  background-color: #fff;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 2px 7px;
+  opacity: 1;
+  float: right;
+}
+
+.postItemBtn:hover {
+  opacity: 0.5;
 }

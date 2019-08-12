@@ -5,62 +5,90 @@ class Listing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      claimed: false,
+      claimed: this.props.product.claimed,
       hoverOver: false,
-      showModal: false
+      showModal: false,
+      viewedItem: {}
     }
 
-    this.handleHover = this.handleHover.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.submitClaim = this.submitClaim.bind(this);
   }
 
-  handleHover() {
-    let updateHoverOver = this.state.hoverOver ? false : true;
-    this.setState({
-      hoverOver: updateHoverOver
-    })
-  }
-
-  handleClick() {
+  handleClick(item) {
     let updateShowModal = this.state.showModal ? false : true;
+    console.log(item);
     this.setState({
-      showModal: updateShowModal
+      showModal: updateShowModal,
+      viewedItem: item
     })
+  }
+
+  submitClaim() {
+    let updatedClaim = this.state.claimed ? false : true;
+    this.setState({
+      claimed: updatedClaim
+    })
+    this.props.claimItem(this.props.product.id, updatedClaim);
   }
 
   render() {
-    let itemLayover = (
-      <div 
-       className={style.itemInfo}
-       onMouseOver={() => {
-         
-       }}
-      >
-        <ul>
-          <li><span className={style.itemInfoText}>Type</span>: {this.props.product.item_type}</li>
-          <li><span className={style.itemInfoText}>Size</span>: {this.props.product.size}</li>    
-          <li><span className={style.itemInfoText}>Color</span>: {this.props.product.color}</li> 
-          <li><span className={style.itemInfoText}>Brand</span>: {this.props.product.brands_id}</li> 
-          <li><span className={style.itemInfoText}>Posted by</span>: {this.props.product.trader_id}</li>
-        </ul>
+    let imageOverlay = (
+      <div className={style.imgOverlay}>
+        <div>swapped</div>
       </div>
     )
 
     let imageModal = (
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">{this.props.product.brands_id} {this.props.product.color} {this.props.product.item_type}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalCenterTitle">
+                   {this.state.viewedItem.brand} {this.state.viewedItem.color} {this.state.viewedItem.item_type}
+                   {this.state.claimed && (<span className={style.claimed}>PENDING</span>)}
+                </h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                 onClick={() => {
+                   this.handleClick({});
+                 }}>
                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-          <div class="modal-body">
-            <img src={this.props.product.pic_url} alt='clothing'/>
+          <div className="modal-body">
+            <div>
+              <div className={style.bodyContainer}>
+                <div className={style.sideImgContainer}>
+                  {this.props.product.extra_imgs[0] !== '' && this.props.product.extra_imgs.map((url, index) => (
+                    <img src={url} alt={this.props.product.item_type} className={style.sideImg} key={index}/>
+                  ))}
+                </div>
+                <div className={style.mainImgContainer}>
+                  <img src={this.state.viewedItem.main_img} alt='clothing' className={style.mainImg}/>
+                </div>
+                <div>
+                  <ul>
+                    <li><span className={style.itemInfoText}>Item</span>: {this.state.viewedItem.item_type}</li>
+                    <li><span className={style.itemInfoText}>Size</span>: {this.state.viewedItem.size}</li>    
+                    <li><span className={style.itemInfoText}>Color</span>: {this.state.viewedItem.color}</li> 
+                    <li><span className={style.itemInfoText}>Brand</span>: {this.state.viewedItem.brand}</li> 
+                    <li><span className={style.itemInfoText}>Posted by</span>: {this.state.viewedItem.posted_by}</li>
+                    <li><span className={style.itemInfoText}>Notes</span>: {this.state.viewedItem.info}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Claim</button>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal"
+               onClick={() => {
+                 this.handleClick({});
+               }}
+              >close</button>
+              <button type="button" className="btn btn-primary" 
+               onClick={() => {
+                 this.submitClaim();
+               }}>claim</button>
             </div>
           </div>
         </div>
@@ -71,22 +99,16 @@ class Listing extends React.Component {
       <div>
         <div className={style.itemContainer}>
           <img 
-            src={this.props.product.pic_url} 
+            src={this.props.product.main_img} 
             alt='clothing' 
             className={style.itemPic}
-            onMouseOver={() => {
-              this.handleHover();
-            }}
-            onMouseLeave={() => {
-              this.handleHover();
-            }}
             onClick={() => {
-              this.handleClick();
+              this.handleClick(this.props.product);
             }}
             data-toggle="modal" 
             data-target="#exampleModalCenter"
           />
-          {this.state.hoverOver && itemLayover}
+          {this.state.claimed && imageOverlay}
         </div>
         {this.state.showModal && imageModal}
       </div>
