@@ -1,9 +1,11 @@
 import React from 'react';
 import Feed from './Feed.jsx';
 import NewPost from './NewPost.jsx';
-// import listings from '../data/listingsData.jsx';
+import Inbox from './Inbox.jsx';
+import Login from './Login.jsx';
 import axios from 'axios';
 import style from '../style/style.css';
+import inboxData from '../data/inboxData.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -12,12 +14,15 @@ class App extends React.Component {
       feed1: [],
       feed2: [],
       feed3: [],
-      currentView: 'feed'
+      pending: inboxData.pendingData,
+      confirmed: inboxData.confirmationsData,
+      currentView: 'login'
     }
 
-    this.claimItem = this.claimItem.bind(this);
-    // this.fetchNext = this.fetchNext.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.updateView = this.updateView.bind(this);
+    this.claimItem = this.claimItem.bind(this);
+    this.confirmItem = this.confirmItem.bind(this);
     this.addItem = this.addItem.bind(this);
   }
 
@@ -28,7 +33,8 @@ class App extends React.Component {
       this.setState({
         feed1: results.slice(0,6),
         feed2: results.slice(6,12),
-        feed3: results.slice(12)
+        feed3: results.slice(12),
+        showMenu: false
       })
     })
     .catch((err) => {
@@ -42,19 +48,16 @@ class App extends React.Component {
     })
   }
 
-  // fetchNext(lastId) {
-  //   axios.get(`/goodies/next/${lastId}`)
-  //   .then((results) => {
-  //     this.setState({
-  //       feed3: results
-  //     })
-  //   })
-  //   .catch((err) => {
-  //     console.log('ERROR ON FETCHNEXT: ', err);
-  //   })
-  // }
+  claimItem(item, wasClaimed) {
+    let pendingList = this.state.pending;
+    pendingList.push(item);
 
-  claimItem(itemId, wasClaimed) {
+    this.setState({
+      pending: pendingList
+    })
+
+    let itemId = item.id;
+
     axios.patch(`/goodies/claim/${itemId}`, { claimed: wasClaimed })
     .then(() => {
       console.log('successful PATCH request');
@@ -64,7 +67,30 @@ class App extends React.Component {
     });
   }
 
-  // confirmItem() {}
+  confirmItem(itemId, wasConfirmed) {
+    let pendingList = this.state.pending;
+    let confirmedList = this.state.confirmed;
+
+    for (let i = 0; i < pendingList.length; i++) {
+      if (pendingList[i].id === itemId) {
+        confirmedList.push(pendingList[i]);
+        pendingList.splice(i, 1);
+      }
+    }
+
+    this.setState({
+      pending: pendingList,
+      confirmed: confirmedList
+    })
+
+    // axios.patch(`/goodies/confirm/${itemId}`, { confirmed: wasConfirmed })
+    // .then(() => {
+    //   console.log('successful PATCH request');
+    // })
+    // .catch((err) => {
+    //   console.log('ERROR ON CLAIM ITEM: ', err);
+    // });
+  }
 
   addItem(itemInfo) {
     axios.post(`/goodies`, { 
@@ -91,36 +117,62 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1 onClick={() => {
-          this.updateView('feed')
-        }}>goodiewill</h1>
-        <div className={style.navBar}>
-          {/* <div className={style.searchBarContainer}> */}
-            {/* <Search /> */}
-            {/* <div>Search</div> */}
-          {/* </div> */}
-          {this.state.currentView !== 'addItem' && 
-          (<div className={style.postBtnContainer}>
-            <img 
-              src='https://image.flaticon.com/icons/png/512/60/60745.png' 
-              alt='upload'
-              className={style.postBtn}
-              onClick={() => {
-                this.updateView('addItem')
-              }}
-            />
-          </div>)}
+        <div>
+          <div className={style.navBar}>
+            <div className={style.menuBtnContainer}>
+              <div>
+                <img src='https://icon-library.net/images/account-icon-png/account-icon-png-1.jpg'
+                 alt='profileIcon'
+                 className={style.profileBtn}
+                 onClick={() => {
+                   this.updateView('login');
+                 }}/>
+                <img src='https://img.icons8.com/carbon-copy/2x/important-mail.png'
+                 alt='inboxIcon' 
+                 className={style.mailBtn}
+                 onClick={() => {
+                   this.updateView('inbox');
+                 }}/>
+                <img src='http://www.myiconfinder.com/uploads/iconsets/37736f35fd7d98b10b35287679b223b8.png'
+                 alt='postIcon' 
+                 className={style.postBtn}
+                 onClick={() => {
+                   this.updateView('addItem');
+                 }}/>
+              </div>
+            </div>
+            <h1 onClick={() => {
+              this.updateView('feed')
+            }}>goodiewill</h1>
+          </div>
         </div>
+
         {this.state.currentView === 'feed' && 
-         (<Feed 
+         (<div className={style.feedContainer}>
+           <Feed 
            items={this.state.feed1} 
            claim={this.claimItem} 
            next={this.state.feed2}/>
+          </div>
         )}
+
         {this.state.currentView === 'addItem' && 
          (<NewPost 
            add={this.addItem}/>
         )}
+
+        {this.state.currentView === 'inbox' &&
+         (<Inbox
+           confirm={this.confirmItem}
+           requests={this.state.pending}
+           confirmations={this.state.confirmed}/>
+        )}
+
+        {this.state.currentView === 'login' &&
+         (<Login updateScreen={this.updateView}/>
+        )}
+        
+        <div className={style.copyright}>&copy; 2019 jbau</div>
       </div>
     )
   }
