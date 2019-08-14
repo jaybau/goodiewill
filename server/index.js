@@ -9,7 +9,10 @@ app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
 app.get('/goodies', (req, res) => {
-  db.query('SELECT * FROM items ORDER BY created_at DESC LIMIT 12', (err, results) => {
+  db.query(`SELECT i.id, i.main_img, i.item_type, i.color, i.size, i.claimed, i.confirmed, i.brand, 
+  i.info, i.extra_imgs, i.created_at, i.updated_at, u.name FROM items i JOIN users u ON u.id = i.posted_by
+  ORDER BY i.created_at DESC LIMIT 12`, 
+  (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send(err);
