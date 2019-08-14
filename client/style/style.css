@@ -33,7 +33,6 @@ h4 {
   height: auto;
   margin: 0 auto;
   padding: 5px 5px 0 5px;
-  /* border: 1px solid #000; */
 }
 
 .menuBtnContainer {
@@ -293,7 +292,6 @@ select {
 /* INBOX */
 
 .inbox {
-  /* border: 1px solid #000; */
   height: 580px;
   width: 75%;
   margin: 20px auto auto auto;
@@ -325,19 +323,10 @@ h3 {
 }
 
 .mailBox {
-  /* border: 1px solid #000; */
   height: 500px;
   width: 50%;
   margin: 35px auto 10px auto;
 }
-
-/* .confirmedBox {
-  border: 1px solid #000;
-  height: 500px;
-  width: 40%;
-  margin: 10px 70px 10px 5px;
-  float: right;
-} */
 
 .request {
   border: 1px solid #D5DBDB;
@@ -349,7 +338,6 @@ h3 {
 }
 
 .inboxImgContainer {
-  /* border: 1px solid #000; */
   width: 102px;
   height: 100px;
   float: left;
@@ -362,8 +350,6 @@ h3 {
 }
 
 .inboxImgInfo {
-  /* border: 1px solid #000; */
-  /* width: 215px; */
   width: 295px;
   height: 50px;
   margin: 5px 0 5px 5px;
@@ -371,7 +357,6 @@ h3 {
 }
 
 .pendingClaimInfo {
-  /* border: 1px solid #000; */
   width: 215px;
   height: 20px;
   font-size: 12px;

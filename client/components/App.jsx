@@ -16,7 +16,7 @@ class App extends React.Component {
       feed3: [],
       pending: inboxData.pendingData,
       confirmed: inboxData.confirmationsData,
-      currentView: 'login'
+      currentView: 'feed'
     }
 
     this.componentDidMount = this.componentDidMount.bind(this);

@@ -13,7 +13,7 @@ class NewPost extends React.Component {
       info: '',
       extraImgOne: '',
       extraImgTwo: '',
-      posted_by: 2,
+      posted_by: 1,
       showPhotoSlot2: false,
       showPhotoSlot3: false
     }
@@ -24,7 +24,6 @@ class NewPost extends React.Component {
   }
 
   onChange(event, type) {
-    console.log(event.target.value);
     if (type === 'type') {
       this.setState({
         item_type: event.target.value

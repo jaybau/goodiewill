@@ -29,7 +29,7 @@ class Listing extends React.Component {
     this.setState({
       claimed: updatedClaim
     })
-    this.props.claimItem(this.props.product.id, updatedClaim);
+    this.props.claimItem(this.props.product, updatedClaim);
   }
 
   render() {
@@ -72,7 +72,7 @@ class Listing extends React.Component {
                     <li><span className={style.itemInfoText}>Size</span>: {this.state.viewedItem.size}</li>    
                     <li><span className={style.itemInfoText}>Color</span>: {this.state.viewedItem.color}</li> 
                     <li><span className={style.itemInfoText}>Brand</span>: {this.state.viewedItem.brand}</li> 
-                    <li><span className={style.itemInfoText}>Posted by</span>: {this.state.viewedItem.posted_by}</li>
+                    <li><span className={style.itemInfoText}>Posted by</span>: {this.state.viewedItem.name}</li>
                     <li><span className={style.itemInfoText}>Notes</span>: {this.state.viewedItem.info}</li>
                   </ul>
                 </div>
